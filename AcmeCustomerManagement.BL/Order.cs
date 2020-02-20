@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acme.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace AcmeCustomerManagement.BL
 {
-    public class Order
+    public class Order : EntityBase, ILoggable
     {
 
-        public Order()
+        public Order(): this(0)
         {
 
         }
@@ -17,21 +18,18 @@ namespace AcmeCustomerManagement.BL
         public Order(int orderId)
         {
             OrderId = orderId;
+            OrderItems = new List<OrderItem>();
         }
-
+        public int CustomerId { get; set; }
         public DateTimeOffset? OrderDate { get; set; }
         public int OrderId { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+        public int ShippingAddressId { get; set; }
 
-        // Retreive 1 order
-        public Order Retreive(int orderId)
-        {
-            return new Order();
-        }
+        public string Log() =>
+            $"{OrderId}: Date: {this.OrderDate.Value.Date} Status: {this.EntityState.ToString()}";
 
-        public bool Save()
-        {
-            return true;
-        }
+        public override string ToString() => $"{OrderDate.Value.Date} ({OrderId})";
 
         public bool Validate()
         {
