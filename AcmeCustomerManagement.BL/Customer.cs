@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acme.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace AcmeCustomerManagement.BL
 {
-    public class Customer
+    public class Customer : EntityBase, ILoggable
     {
 
-
          // constructors
-
-            public Customer()
+           
+            //  : this(0) is constructor chaining used so we dont have to repeat the AddressList line again.
+            
+            public Customer() : this(0)
             {
                 // empty contstructor
             }
@@ -22,13 +24,21 @@ namespace AcmeCustomerManagement.BL
             public Customer(int customerId)
             {
             CustomerId = customerId;
+            AddressList = new List<Address>();
             }
 
+        public List<Address> AddressList { get; set; }
 
         public int CustomerId { get; private set; }
+        public int CustomerType { get; set; }
         public string EmailAddress { get; set; }
 
         public string FirstName { get; set; }
+
+        public string Log() =>
+            $"{CustomerId}: {FullName} Email: {EmailAddress} Status: {EntityState.ToString()}";
+
+        public override string ToString() => FullName;
 
         public string FullName
         {
@@ -75,18 +85,6 @@ namespace AcmeCustomerManagement.BL
             return isValid;
         }
 
-        public Customer Retrieve(int customerId)
-        {
-            return new Customer();
-        }
-        public List<Customer> Retrieve()
-        {
-            return new List<Customer>();
-        }
-
-        public bool Save()
-        {
-            return true;
-        }
+ 
     }
 }
