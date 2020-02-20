@@ -8,5 +8,6 @@ namespace AcmeCustomerManagement.BL
 {
     public class OrderItem
     {
+
     }
 }
